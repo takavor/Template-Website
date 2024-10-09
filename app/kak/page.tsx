@@ -2,7 +2,7 @@ import React from "react";
 
 const page = () => {
   return (
-    <div>
+    <div className="p-6 text-justify">
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum quia,
       maiores facilis repellat obcaecati laboriosam enim est consequuntur
       repudiandae eius iure vel blanditiis voluptas officia ipsum, alias rerum

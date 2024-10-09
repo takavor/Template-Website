@@ -3,13 +3,18 @@ import React from "react";
 interface IconButtonProps {
   onClick: () => void;
   isOpen: boolean;
+  appendedClasses?: string;
 }
 
-const IconButton: React.FC<IconButtonProps> = ({ onClick, isOpen }) => {
+const IconButton: React.FC<IconButtonProps> = ({
+  onClick,
+  isOpen,
+  appendedClasses,
+}) => {
   return (
     <button
       onClick={onClick}
-      className="mr-4  hover:text-red-400 rounded-md sm:hidden"
+      className={`${appendedClasses} hover:text-red-400 rounded-md sm:hidden`}
       aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
     >
       {isOpen ? (

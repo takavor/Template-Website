@@ -30,7 +30,7 @@ const Navbar = () => {
       <div className="flex items-center">
         <Link
           href="/"
-          className="m-6 md:ml-10 lg:ml-16 cursor-pointer group-hover:text-gray-600 transition"
+          className="font-bold m-6 md:ml-10 lg:ml-16 cursor-pointer group-hover:text-gray-600 transition"
         >
           W
         </Link>
@@ -46,12 +46,6 @@ const Navbar = () => {
 
       {/* RIGHT SECTION */}
       <div className="hidden sm:flex items-center">
-        {/* <button className="hover:text-red-400 m-2 transition p-2 rounded-md">
-          Log In
-        </button>
-        <button className="m-2 md:mr-10 lg:mr-16 text-white bg-red-500 hover:bg-red-300  transition p-2 rounded-md">
-          Sign up
-        </button> */}
         {actionButtons.map((button) => (
           <ActionButton
             key={button.name}
@@ -63,9 +57,59 @@ const Navbar = () => {
       </div>
 
       {/* HAMBURGER */}
-      <IconButton isOpen={isSidebarOpen} onClick={toggleSidebar} />
+      {!isSidebarOpen && (
+        <IconButton
+          appendedClasses="mr-4"
+          isOpen={false}
+          onClick={toggleSidebar}
+        />
+      )}
+
+      {/* SIDEBAR BLUR */}
+
+      <div
+        className={`fixed inset-0 top-16 z-40 backdrop-blur-sm transition-opacity duration-300 ease-in-out ${
+          isSidebarOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        }`}
+        onClick={closeSidebar}
+      ></div>
 
       {/* SIDEBAR */}
+      <div
+        className={`p-4 fixed top-16 left-0 w-64 h-full bg-white shadow-md transform transition-transform duration-500 ease-in-out ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } z-50`}
+      >
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-semibold">Menu</h2>
+          <IconButton isOpen={true} onClick={closeSidebar} />
+        </div>
+
+        <div className="flex flex-col">
+          {/* links */}
+          {navLinks.map((link) => (
+            <NavLink
+              key={link.name}
+              name={link.name}
+              href={link.href}
+              isSidebar={true}
+            />
+          ))}
+          {/* buttons */}
+          <div className="m-4 flex justify-center">
+            {actionButtons.map((button) => (
+              <ActionButton
+                key={button.name}
+                name={button.name}
+                variant={button.variant}
+                onClick={button.onClick}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
     </nav>
   );
 };
