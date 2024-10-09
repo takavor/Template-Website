@@ -25,12 +25,12 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="h-16 shadow-sm p-2 flex justify-between items-center bg-white border-b">
+    <nav className="h-16 px-4 shadow-sm flex justify-between items-center bg-white border-b lg:px-16">
       {/* LEFT SECTION */}
       <div className="flex items-center">
         <Link
           href="/"
-          className="font-bold m-6 md:ml-10 lg:ml-16 cursor-pointer group-hover:text-gray-600 transition"
+          className="m-2 font-bold cursor-pointer group-hover:text-gray-600 transition"
         >
           W
         </Link>
@@ -58,11 +58,7 @@ const Navbar = () => {
 
       {/* HAMBURGER */}
       {!isSidebarOpen && (
-        <IconButton
-          appendedClasses="mr-4"
-          isOpen={false}
-          onClick={toggleSidebar}
-        />
+        <IconButton appendedClasses="" isOpen={false} onClick={toggleSidebar} />
       )}
 
       {/* SIDEBAR BLUR */}
@@ -98,13 +94,14 @@ const Navbar = () => {
             />
           ))}
           {/* buttons */}
-          <div className="m-4 flex justify-center">
+          <div className="flex justify-center">
             {actionButtons.map((button) => (
               <ActionButton
                 key={button.name}
                 name={button.name}
                 variant={button.variant}
                 onClick={button.onClick}
+                isSidebar={true}
               />
             ))}
           </div>
