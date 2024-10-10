@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import "@/app/globals.css";
@@ -81,12 +82,20 @@ const page = () => {
                 Log in
               </button>
 
-              <hr className="border-t border-gray-300 m-8" />
+              <hr className="border-t border-gray-300 my-8" />
 
               <div className="text-center">
                 <p className="text-sm mb-4">Or log in using</p>
                 <div className="flex flex-row justify-center">
-                  <div className="h-12 w-12 border border-gray-300 rounded-lg"></div>
+                  <div className="flex h-12 w-12 border border-gray-300 rounded-lg">
+                    <Image
+                      src="/images/google_logo.svg"
+                      alt="google logo"
+                      width="64"
+                      height="64"
+                      className="w-2/3 justify-center items-center mx-auto"
+                    />
+                  </div>
                 </div>
               </div>
             </form>
