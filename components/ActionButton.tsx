@@ -4,15 +4,15 @@ import { useRouter } from "next/navigation";
 interface ActionButtonProps {
   name: string;
   variant: string;
-  href: string;
   isSidebar?: boolean;
+  onClick?: () => void;
 }
 
 const ActionButton: React.FC<ActionButtonProps> = ({
   name,
   variant,
-  href,
   isSidebar = false,
+  onClick,
 }) => {
   const baseClasses =
     "m-2 transition rounded-md text-base focus:outline-none focus:ring-1 focus:ring-red-600";
@@ -26,7 +26,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
   return (
     <button
       className={`${baseClasses} ${variantClasses} ${sidebarVariantClasses} `}
-      onClick={() => router.push(href)}
+      onClick={onClick}
     >
       {name}
     </button>

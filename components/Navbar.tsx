@@ -2,6 +2,7 @@
 
 import "../app/globals.css";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 // COMPONENTS
 import Link from "next/link";
@@ -23,6 +24,8 @@ const Navbar = () => {
   const closeSidebar = () => {
     setIsSidebarOpen(false);
   };
+
+  const router = useRouter();
 
   return (
     <nav className="h-16 px-4 shadow-sm flex justify-between items-center bg-white border-b lg:px-16">
@@ -51,7 +54,7 @@ const Navbar = () => {
             key={button.name}
             name={button.name}
             variant={button.variant}
-            href={button.href}
+            onClick={() => router.push(`${button.href}`)}
           />
         ))}
       </div>
@@ -91,6 +94,7 @@ const Navbar = () => {
               name={link.name}
               href={link.href}
               isSidebar={true}
+              onClick={closeSidebar}
             />
           ))}
           {/* buttons */}
@@ -100,8 +104,11 @@ const Navbar = () => {
                 key={button.name}
                 name={button.name}
                 variant={button.variant}
-                href={button.href}
                 isSidebar={true}
+                onClick={() => {
+                  closeSidebar();
+                  router.push(`${button.href}`);
+                }}
               />
             ))}
           </div>
