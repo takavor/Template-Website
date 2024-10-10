@@ -1,16 +1,17 @@
 import React from "react";
+import { useRouter } from "next/navigation";
 
 interface ActionButtonProps {
   name: string;
   variant: string;
-  onClick?: () => void;
+  href: string;
   isSidebar?: boolean;
 }
 
 const ActionButton: React.FC<ActionButtonProps> = ({
   name,
   variant,
-  onClick,
+  href,
   isSidebar = false,
 }) => {
   const baseClasses =
@@ -21,10 +22,11 @@ const ActionButton: React.FC<ActionButtonProps> = ({
       : "text-red-500 border border-red-500 hover:bg-red-100 hover:border-transparent hover:text-white";
   const sidebarVariantClasses = isSidebar ? "py-1 px-2 mt-6" : "p-2";
 
+  const router = useRouter();
   return (
     <button
       className={`${baseClasses} ${variantClasses} ${sidebarVariantClasses} `}
-      onClick={onClick}
+      onClick={() => router.push(href)}
     >
       {name}
     </button>

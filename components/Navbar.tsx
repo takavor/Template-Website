@@ -51,7 +51,7 @@ const Navbar = () => {
             key={button.name}
             name={button.name}
             variant={button.variant}
-            onClick={button.onClick}
+            href={button.href}
           />
         ))}
       </div>
@@ -100,7 +100,7 @@ const Navbar = () => {
                 key={button.name}
                 name={button.name}
                 variant={button.variant}
-                onClick={button.onClick}
+                href={button.href}
                 isSidebar={true}
               />
             ))}
