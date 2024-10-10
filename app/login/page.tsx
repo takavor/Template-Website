@@ -9,8 +9,8 @@ const page = () => {
   const router = useRouter();
 
   return (
-    <section className="min-h-screen">
-      <div className="sm:w-2/3 xl:w-1/2  mt-8 flex flex-col items-center justify-center px-6 py-8 mx-auto">
+    <section className="">
+      <div className="sm:w-2/3 max-w-xl mt-8 flex flex-col items-center justify-center px-6 py-8 mx-auto">
         <div className="mb-8">
           <h1 className="text-2xl">Company Name</h1>
         </div>
@@ -20,8 +20,8 @@ const page = () => {
               Log in to your account
             </h1>
 
-            <form action="" className="space-y-4">
-              <div>
+            <form action="" className="">
+              <div className="my-4 md:my-6">
                 <label className="" htmlFor="email">
                   Your email
                 </label>
@@ -34,7 +34,7 @@ const page = () => {
                   required={true}
                 />
               </div>
-              <div>
+              <div className="my-4 md:my-6">
                 <label className="" htmlFor="password">
                   Your password
                 </label>
@@ -47,7 +47,7 @@ const page = () => {
                   required={true}
                 />
               </div>
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between my-4 md:my-6">
                 <div className="flex items-start">
                   <div className="flex items-center h-5">
                     <input
@@ -80,20 +80,29 @@ const page = () => {
               >
                 Log in
               </button>
-              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                Don’t have an account yet?{" "}
-                <a
-                  href="#"
-                  className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                  onClick={() => router.push("/signup")}
-                >
-                  Sign up
-                </a>
-              </p>
+
+              <hr className="border-t border-gray-300 m-8" />
+
+              <div className="text-center">
+                <p className="text-sm mb-4">Or log in using</p>
+                <div className="flex flex-row justify-center">
+                  <div className="h-12 w-12 border border-gray-300 rounded-lg"></div>
+                </div>
+              </div>
             </form>
           </div>
         </div>
       </div>
+      <p className="text-center text-sm font-light text-gray-500 dark:text-gray-400">
+        Don’t have an account yet?{" "}
+        <a
+          href="#"
+          className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+          onClick={() => router.push("/signup")}
+        >
+          Sign up
+        </a>
+      </p>
     </section>
   );
 };
