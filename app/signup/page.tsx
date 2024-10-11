@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 import "@/app/globals.css";
 
@@ -26,6 +27,7 @@ const SignupPage = () => {
     setError(false);
     setLoading(true);
 
+    // register user
     const response = await fetch("/api/register", {
       method: "POST",
       headers: {
@@ -37,7 +39,22 @@ const SignupPage = () => {
     const id = await response.json();
 
     if (response.ok) {
-      router.push("/dashboard");
+      // use login route to create session
+
+      const creds = { email: data.email, password: data.password };
+      const signInResponse = await signIn("credentials", {
+        ...creds,
+        redirect: false,
+      });
+
+      if (signInResponse?.ok) {
+        // logged in successfully
+        setError(false);
+        setLoading(false);
+        router.push("/dashboard");
+      } else {
+        console.error("COULD NOT LOG IN AFTER CREATING ACCOUNT");
+      }
     } else {
       setError(true);
     }
