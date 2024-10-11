@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 
 import { BarLoader } from "react-spinners";
 
@@ -32,7 +32,6 @@ const LoginPage = () => {
     });
 
     if (response?.ok) {
-      console.log("Response:", response);
       setLoading(false);
       setError(false);
       router.push("/dashboard");
@@ -42,6 +41,13 @@ const LoginPage = () => {
       setError(true);
     }
   };
+
+  // get session
+  const { data: session, status } = useSession();
+
+  if (status === "authenticated") {
+    // router.push("/dashboard");
+  }
 
   return (
     <section className="">

@@ -17,12 +17,13 @@ const SignupPage = () => {
     password: "",
   });
 
-  const [error, setError] = useState("");
+  const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const registerUserCredentials = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    setError(false);
     setLoading(true);
 
     const response = await fetch("/api/register", {
@@ -33,13 +34,12 @@ const SignupPage = () => {
       body: JSON.stringify(data),
     });
 
-    const resJson = await response.json();
-    console.log("Response json:", resJson);
+    const id = await response.json();
 
     if (response.ok) {
       router.push("/dashboard");
     } else {
-      setError(resJson.error);
+      setError(true);
     }
     setLoading(false);
   };
@@ -112,25 +112,23 @@ const SignupPage = () => {
 
               <button
                 type="submit"
-                className="mb-2 transition w-full text-white bg-red-500 hover:bg-red-300 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                className="mb-4 transition w-full text-white bg-red-500 hover:bg-red-300 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
               >
                 Sign up
               </button>
 
-              <div className="">
-                <p
-                  className={`text-primary-500 text-center ${
-                    error ? "" : "invisible"
-                  }`}
-                >
-                  {error}
-                </p>
-              </div>
+              <p
+                className={`text-primary-500 text-center ${
+                  error ? "" : "invisible"
+                }`}
+              >
+                Email is already taken.
+              </p>
 
               <div
-                className={`mt-2 flex items-center justify-center
-                ${loading ? "" : "invisible"}
-                `}
+                className={`mt-2 flex items-center justify-center ${
+                  loading ? "" : "invisible"
+                }`}
               >
                 <BarLoader width={50} color="#F53C3C" />
               </div>
