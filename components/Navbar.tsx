@@ -28,7 +28,7 @@ const Navbar = () => {
   const router = useRouter();
 
   return (
-    <nav className="h-16 px-4 shadow-sm flex justify-between items-center bg-white border-b lg:px-16">
+    <nav className="h-16 xl:text-lg xl:h-24 px-4 shadow-sm flex justify-between items-center bg-white border-b lg:px-16">
       {/* LEFT SECTION */}
       <div className="flex items-center">
         <Link

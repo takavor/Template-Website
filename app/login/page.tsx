@@ -1,17 +1,51 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
+
+import { BarLoader } from "react-spinners";
 
 import "@/app/globals.css";
 
-const page = () => {
+const LoginPage = () => {
   const router = useRouter();
+
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const loginUserCredentials = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    setError(false);
+    setLoading(true);
+
+    const response = await signIn("credentials", {
+      ...data,
+      redirect: false,
+    });
+
+    if (response?.ok) {
+      console.log("Response:", response);
+      setLoading(false);
+      setError(false);
+      router.push("/dashboard");
+    } else {
+      console.error("Failed to log in:", response?.error);
+      setLoading(false);
+      setError(true);
+    }
+  };
 
   return (
     <section className="">
-      <div className="sm:w-2/3 max-w-xl mt-8 flex flex-col items-center justify-center px-6 py-8 mx-auto">
+      <div className="sm:w-2/3 max-w-xl mt-4 flex flex-col items-center justify-center px-6 py-8 mx-auto">
         <div className="mb-8">
           <h1 className="text-2xl">Company Name</h1>
         </div>
@@ -21,7 +55,7 @@ const page = () => {
               Log in to your account
             </h1>
 
-            <form action="" className="">
+            <form action="" className="" onSubmit={loginUserCredentials}>
               <div className="my-4 md:my-6">
                 <label className="" htmlFor="email">
                   Your email
@@ -33,6 +67,10 @@ const page = () => {
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  "
                   placeholder=""
                   required={true}
+                  value={data.email}
+                  onChange={(e) => {
+                    setData({ ...data, email: e.target.value });
+                  }}
                 />
               </div>
               <div className="my-4 md:my-6">
@@ -46,6 +84,10 @@ const page = () => {
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  "
                   placeholder=""
                   required={true}
+                  value={data.password}
+                  onChange={(e) => {
+                    setData({ ...data, password: e.target.value });
+                  }}
                 />
               </div>
               <div className="flex items-center justify-between my-4 md:my-6">
@@ -77,17 +119,33 @@ const page = () => {
               </div>
               <button
                 type="submit"
-                className="transition w-full text-white bg-red-500 hover:bg-red-300 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                className="mb-4 transition w-full text-white bg-red-500 hover:bg-red-300 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
               >
                 Log in
               </button>
 
-              <hr className="border-t border-gray-300 my-8" />
+              <p
+                className={`text-primary-500 text-center ${
+                  error ? "" : "invisible"
+                }`}
+              >
+                Invalid email or password. Please try again.
+              </p>
+
+              <div
+                className={`mt-2 flex items-center justify-center ${
+                  loading ? "" : "invisible"
+                }`}
+              >
+                <BarLoader width={50} color="#F53C3C" />
+              </div>
+
+              <hr className="border-t border-gray-300 my-4" />
 
               <div className="text-center">
                 <p className="text-sm mb-4">Or log in using</p>
                 <div className="flex flex-row justify-center">
-                  <div className="flex h-12 w-12 border border-gray-300 rounded-lg">
+                  <div className="cursor-pointer flex h-12 w-12 border border-gray-300 rounded-lg">
                     <Image
                       src="/images/google_logo.svg"
                       alt="google logo"
@@ -116,4 +174,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default LoginPage;
