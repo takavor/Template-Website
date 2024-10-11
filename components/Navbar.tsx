@@ -1,7 +1,7 @@
 "use client";
 
 import "../app/globals.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 
@@ -56,7 +56,7 @@ const Navbar = () => {
         ) : (
           <></>
         )}
-        {session.status === "authenticated" ? (
+        {session.status === "authenticated" && (
           <ActionButton
             key="Log Out"
             name="Log Out"
@@ -66,7 +66,8 @@ const Navbar = () => {
               // router.push("/");
             }}
           />
-        ) : (
+        )}
+        {session.status === "unauthenticated" && (
           <>
             <ActionButton
               key="Log In"
@@ -90,7 +91,6 @@ const Navbar = () => {
       )}
 
       {/* SIDEBAR BLUR */}
-
       <div
         className={`fixed inset-0 top-16 z-40 backdrop-blur-sm transition-opacity duration-300 ease-in-out ${
           isSidebarOpen
@@ -122,19 +122,27 @@ const Navbar = () => {
               onClick={closeSidebar}
             />
           ))}
+
           {/* buttons */}
           <div className="flex justify-center">
-            {session.status === "authenticated" ? (
-              <ActionButton
-                key="Log Out"
-                name="Log Out"
-                variant="secondary"
-                onClick={() => {
-                  closeSidebar();
-                  signOut({ callbackUrl: "/" });
-                }}
-              />
-            ) : (
+            {session.status === "authenticated" && (
+              <div className="mt-2 flex flex-col items-center justify-center">
+                <p className="text-sm">
+                  Logged in as{" "}
+                  <span className="font-bold">{session.data.user.name}</span>
+                </p>
+                <ActionButton
+                  key="Log Out"
+                  name="Log Out"
+                  variant="secondary"
+                  onClick={() => {
+                    closeSidebar();
+                    signOut({ callbackUrl: "/" });
+                  }}
+                />
+              </div>
+            )}
+            {session.status === "unauthenticated" && (
               <>
                 <ActionButton
                   key="Log In"
