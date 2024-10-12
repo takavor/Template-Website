@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 import "@/app/globals.css";
 
@@ -11,6 +12,19 @@ import { BarLoader } from "react-spinners";
 
 const SignupPage = () => {
   const router = useRouter();
+
+  // get session
+  const { data: session, status } = useSession();
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.replace("/dashboard");
+    }
+  }, [status, router]);
+
+  if (status === "loading") {
+    <div className="m-12">Loading...</div>;
+  }
 
   const [data, setData] = useState({
     name: "",
@@ -91,7 +105,7 @@ const SignupPage = () => {
       if (signInResponse?.ok) {
         // logged in successfully
         setLoading(false);
-        router.push("/dashboard");
+        router.replace("/dashboard");
       } else {
         console.error("COULD NOT LOG IN AFTER CREATING ACCOUNT");
       }

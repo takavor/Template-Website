@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
@@ -12,18 +12,32 @@ import "@/app/globals.css";
 const LoginPage = () => {
   const router = useRouter();
 
-  const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  // errors for fields
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+  });
+
+  // error shown underneath
+  const [error, setError] = useState(false);
 
   const [data, setData] = useState({
     email: "",
     password: "",
+    rememberMe: false,
   });
 
   const loginUserCredentials = async (e: React.FormEvent) => {
     e.preventDefault();
 
     setError(false);
+
+    if (!validateForm()) {
+      return;
+    }
+
     setLoading(true);
 
     const response = await signIn("credentials", {
@@ -32,22 +46,54 @@ const LoginPage = () => {
     });
 
     if (response?.ok) {
-      setLoading(false);
       setError(false);
-      router.push("/dashboard");
+      setLoading(false);
+      router.replace("/dashboard");
     } else {
       console.error("Failed to log in:", response?.error);
-      setLoading(false);
       setError(true);
+      setLoading(false);
     }
   };
 
   // get session
   const { data: session, status } = useSession();
 
-  if (status === "authenticated") {
-    // router.push("/dashboard");
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.replace("/dashboard");
+    }
+  }, [status, router]);
+
+  if (status === "loading") {
+    <div className="m-12">Loading...</div>;
   }
+
+  // function to validate form before registration
+  const validateForm = () => {
+    const newErrors = { name: "", email: "", password: "" };
+    // reset errors
+    setErrors(newErrors);
+    setError(false);
+
+    let isValid = true;
+
+    if (!data.email.trim()) {
+      newErrors.email = "Email is required.";
+      isValid = false;
+    } else if (!/\S+@\S+\.\S+/.test(data.email)) {
+      newErrors.email = "Email address is invalid.";
+      isValid = false;
+    }
+
+    if (!data.password) {
+      newErrors.password = "Password is required.";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
 
   return (
     <section className="">
@@ -61,7 +107,12 @@ const LoginPage = () => {
               Log in to your account
             </h1>
 
-            <form action="" className="" onSubmit={loginUserCredentials}>
+            <form
+              action=""
+              className=""
+              onSubmit={loginUserCredentials}
+              noValidate
+            >
               <div className="my-4 md:my-6">
                 <label className="" htmlFor="email">
                   Your email
@@ -70,7 +121,9 @@ const LoginPage = () => {
                   type="email"
                   name="email"
                   id="email"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  "
+                  className={`border ${
+                    errors.email ? "border-red-600" : "border-gray-300"
+                  } bg-gray-50  text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5`}
                   placeholder=""
                   required={true}
                   value={data.email}
@@ -78,6 +131,11 @@ const LoginPage = () => {
                     setData({ ...data, email: e.target.value });
                   }}
                 />
+                {errors.email && (
+                  <div className="text-red-600 font-semibold">
+                    <p className="mt-2 text-sm">{errors.email}</p>
+                  </div>
+                )}
               </div>
               <div className="my-4 md:my-6">
                 <label className="" htmlFor="password">
@@ -87,7 +145,9 @@ const LoginPage = () => {
                   type="password"
                   name="password"
                   id="password"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  "
+                  className={` border ${
+                    errors.password ? "border-red-600" : "border-gray-300"
+                  } bg-gray-50  text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5`}
                   placeholder=""
                   required={true}
                   value={data.password}
@@ -95,16 +155,23 @@ const LoginPage = () => {
                     setData({ ...data, password: e.target.value });
                   }}
                 />
+                {errors.password && (
+                  <div className="text-red-600 font-semibold">
+                    <p className="mt-2 text-sm">{errors.password}</p>
+                  </div>
+                )}
               </div>
-              <div className="flex items-center justify-between my-4 md:my-6">
-                <div className="flex items-start">
+              <div className="flex items-center justify-end my-4 md:my-6">
+                {/* <div className="flex items-start">
                   <div className="flex items-center h-5">
                     <input
                       id="remember"
                       aria-describedby="remember"
                       type="checkbox"
                       className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                      required={true}
+                      onChange={(e) => {
+                        setData({ ...data, rememberMe: e.target.checked });
+                      }}
                     />
                   </div>
                   <div className="ml-3 text-sm">
@@ -115,14 +182,19 @@ const LoginPage = () => {
                       Remember me
                     </label>
                   </div>
-                </div>
-                <a
-                  href="#"
-                  className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >
-                  Forgot password?
-                </a>
+                </div> */}
+                <span className="text-sm font-semibold">
+                  Forgot your password? Click{" "}
+                  <a
+                    href="#"
+                    className="text-center font-medium text-primary-600 hover:underline dark:text-primary-500"
+                  >
+                    here
+                  </a>
+                  .
+                </span>
               </div>
+
               <button
                 type="submit"
                 className="mb-4 transition w-full text-white bg-primary-500 hover:bg-primary-300 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
@@ -130,14 +202,11 @@ const LoginPage = () => {
                 Log in
               </button>
 
-              <p
-                className={`text-primary-500 text-center ${
-                  error ? "" : "invisible"
-                }`}
-              >
-                Invalid email or password. Please try again.
-              </p>
-
+              {error && (
+                <p className="text-center text-red-600 font-semibold mb-2">
+                  Invalid email or password.
+                </p>
+              )}
               <div
                 className={`mt-2 flex items-center justify-center ${
                   loading ? "" : "invisible"
