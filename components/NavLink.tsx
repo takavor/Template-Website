@@ -17,7 +17,7 @@ const NavLink: React.FC<NavLinkProps> = ({
     <Link
       className={`lg:m-10 md:m-6 ${
         !isSidebar && "m-2 underline-animation"
-      } transition ${isSidebar && "my-2 hover:text-red-400"}`}
+      } transition ${isSidebar && "my-2 hover:text-primary-400"}`}
       href={href}
       onClick={onClick}
     >
