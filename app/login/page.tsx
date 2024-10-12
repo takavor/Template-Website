@@ -146,7 +146,8 @@ const LoginPage = () => {
                 <BarLoader width={50} color="#F53C3C" />
               </div>
 
-              <hr className="border-t border-gray-300 my-4" />
+              {/* GOOGLE PROVIDER SECTION */}
+              {/* <hr className="border-t border-gray-300 my-4" />
 
               <div className="text-center">
                 <p className="text-sm mb-4">Or log in using</p>
@@ -161,7 +162,7 @@ const LoginPage = () => {
                     />
                   </div>
                 </div>
-              </div>
+              </div> */}
             </form>
           </div>
         </div>

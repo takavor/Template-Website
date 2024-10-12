@@ -18,13 +18,54 @@ const SignupPage = () => {
     password: "",
   });
 
-  const [error, setError] = useState(false);
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
   const [loading, setLoading] = useState(false);
+
+  // function to validate form before registration
+  const validateForm = () => {
+    const newErrors = { name: "", email: "", password: "" };
+    // reset errors
+    setErrors(newErrors);
+
+    let isValid = true;
+
+    if (!data.name.trim()) {
+      newErrors.name = "Name is required.";
+      isValid = false;
+    }
+
+    if (!data.email.trim()) {
+      newErrors.email = "Email is required.";
+      isValid = false;
+    } else if (!/\S+@\S+\.\S+/.test(data.email)) {
+      newErrors.email = "Email address is invalid.";
+      isValid = false;
+    }
+
+    if (!data.password) {
+      newErrors.password = "Password is required.";
+      isValid = false;
+    } else if (data.password.length < 8) {
+      newErrors.password = "Password must be at least 8 characters long.";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
 
   const registerUserCredentials = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    setError(false);
+    if (!validateForm()) {
+      return;
+    }
+
     setLoading(true);
 
     // register user
@@ -49,14 +90,13 @@ const SignupPage = () => {
 
       if (signInResponse?.ok) {
         // logged in successfully
-        setError(false);
         setLoading(false);
         router.push("/dashboard");
       } else {
         console.error("COULD NOT LOG IN AFTER CREATING ACCOUNT");
       }
     } else {
-      setError(true);
+      setErrors({ ...errors, email: "Email address is already taken." });
     }
     setLoading(false);
   };
@@ -73,7 +113,12 @@ const SignupPage = () => {
               Create an account
             </h1>
 
-            <form action="" className="" onSubmit={registerUserCredentials}>
+            <form
+              action=""
+              className=""
+              onSubmit={registerUserCredentials}
+              noValidate
+            >
               <div className="my-4">
                 <label className="" htmlFor="email">
                   Your name
@@ -82,7 +127,9 @@ const SignupPage = () => {
                   type="text"
                   name="name"
                   id="name"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  "
+                  className={`border ${
+                    errors.name ? "border-red-600" : "border-gray-300"
+                  } bg-gray-50 border text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5`}
                   placeholder="John Doe"
                   required={true}
                   value={data.name}
@@ -90,7 +137,13 @@ const SignupPage = () => {
                     setData({ ...data, name: e.target.value });
                   }}
                 />
+                {errors.name && (
+                  <div className="text-red-600 font-semibold">
+                    <p className="mt-2 text-sm">{errors.name}</p>
+                  </div>
+                )}
               </div>
+
               <div className="my-4">
                 <label className="" htmlFor="email">
                   Your email
@@ -99,7 +152,9 @@ const SignupPage = () => {
                   type="email"
                   name="email"
                   id="email"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  "
+                  className={`border ${
+                    errors.email ? "border-red-600" : "border-gray-300"
+                  } bg-gray-50 border text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  `}
                   placeholder="abc@xyz.com"
                   required={true}
                   value={data.email}
@@ -107,7 +162,13 @@ const SignupPage = () => {
                     setData({ ...data, email: e.target.value });
                   }}
                 />
+                {errors.email && (
+                  <div className="text-red-600 font-semibold">
+                    <p className="mt-2 text-sm">{errors.email}</p>
+                  </div>
+                )}
               </div>
+
               <div className="my-4">
                 <label className="" htmlFor="password">
                   Your password
@@ -116,7 +177,9 @@ const SignupPage = () => {
                   type="password"
                   name="password"
                   id="password"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  "
+                  className={`border ${
+                    errors.password ? "border-red-600" : "border-gray-300"
+                  } bg-gray-50 border text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  `}
                   placeholder="●●●●●●●●"
                   required={true}
                   value={data.password}
@@ -125,6 +188,11 @@ const SignupPage = () => {
                   }}
                   minLength={8}
                 />
+                {errors.password && (
+                  <div className="text-red-600 font-semibold">
+                    <p className="mt-2 text-sm">{errors.password}</p>
+                  </div>
+                )}
               </div>
 
               <button
@@ -134,14 +202,6 @@ const SignupPage = () => {
                 Sign up
               </button>
 
-              <p
-                className={`text-primary-500 text-center ${
-                  error ? "" : "invisible"
-                }`}
-              >
-                Email is already taken.
-              </p>
-
               <div
                 className={`mt-2 flex items-center justify-center ${
                   loading ? "" : "invisible"
@@ -150,7 +210,8 @@ const SignupPage = () => {
                 <BarLoader width={50} color="#F53C3C" />
               </div>
 
-              <hr className="border-t border-gray-300 my-8" />
+              {/* GOOGLE PROVIDER SECTION */}
+              {/* <hr className="border-t border-gray-300 my-8" />
 
               <div className="text-center">
                 <p className="text-sm mb-4">Or sign up using</p>
@@ -165,7 +226,7 @@ const SignupPage = () => {
                     />
                   </div>
                 </div>
-              </div>
+              </div> */}
             </form>
           </div>
         </div>
