@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface NavLinkProps {
   href: string;
@@ -13,11 +14,14 @@ const NavLink: React.FC<NavLinkProps> = ({
   onClick,
   isSidebar = false,
 }) => {
+  const pathname = usePathname();
   return (
     <Link
       className={`lg:m-10 md:m-6 ${
         !isSidebar && "m-2 underline-animation"
-      } transition ${isSidebar && "my-2 hover:text-red-400"}`}
+      } transition ${isSidebar && "my-2 hover:text-primary-400"}
+      ${pathname === href ? "font-bold" : ""}
+      `}
       href={href}
       onClick={onClick}
     >

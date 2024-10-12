@@ -1,7 +1,9 @@
 "use client";
 
 import "../app/globals.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
 
 // COMPONENTS
 import Link from "next/link";
@@ -10,10 +12,11 @@ import IconButton from "./IconButton";
 
 // DATA
 import { navLinks } from "@/data/navLinks";
-import { actionButtons } from "@/data/actionButtons";
 import ActionButton from "./ActionButton";
 
 const Navbar = () => {
+  const session = useSession();
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -24,8 +27,10 @@ const Navbar = () => {
     setIsSidebarOpen(false);
   };
 
+  const router = useRouter();
+
   return (
-    <nav className="h-16 px-4 shadow-sm flex justify-between items-center bg-white border-b lg:px-16">
+    <nav className="h-16 xl:text-lg xl:h-20 px-4 shadow-sm flex justify-between items-center bg-white border-b lg:px-16">
       {/* LEFT SECTION */}
       <div className="flex items-center">
         <Link
@@ -46,14 +51,37 @@ const Navbar = () => {
 
       {/* RIGHT SECTION */}
       <div className="hidden sm:flex items-center">
-        {actionButtons.map((button) => (
+        {session.status === "authenticated" ? (
+          <p className="mr-2 font-bold">{session.data.user.name}</p>
+        ) : (
+          <></>
+        )}
+        {session.status === "authenticated" && (
           <ActionButton
-            key={button.name}
-            name={button.name}
-            variant={button.variant}
-            onClick={button.onClick}
+            key="Log Out"
+            name="Log Out"
+            variant="secondary"
+            onClick={() => {
+              signOut({ callbackUrl: "/" });
+            }}
           />
-        ))}
+        )}
+        {session.status === "unauthenticated" && (
+          <>
+            <ActionButton
+              key="Log In"
+              name="Log In"
+              variant="secondary"
+              onClick={() => router.push(`${"/login"}`)}
+            />
+            <ActionButton
+              key="Sign Up"
+              name="Sign Up"
+              variant="primary"
+              onClick={() => router.push(`${"/signup"}`)}
+            />
+          </>
+        )}
       </div>
 
       {/* HAMBURGER */}
@@ -62,7 +90,6 @@ const Navbar = () => {
       )}
 
       {/* SIDEBAR BLUR */}
-
       <div
         className={`fixed inset-0 top-16 z-40 backdrop-blur-sm transition-opacity duration-300 ease-in-out ${
           isSidebarOpen
@@ -91,19 +118,51 @@ const Navbar = () => {
               name={link.name}
               href={link.href}
               isSidebar={true}
+              onClick={closeSidebar}
             />
           ))}
+
           {/* buttons */}
           <div className="flex justify-center">
-            {actionButtons.map((button) => (
-              <ActionButton
-                key={button.name}
-                name={button.name}
-                variant={button.variant}
-                onClick={button.onClick}
-                isSidebar={true}
-              />
-            ))}
+            {session.status === "authenticated" && (
+              <div className="mt-2 flex flex-col items-center justify-center">
+                <p className="text-sm">
+                  Logged in as{" "}
+                  <span className="font-bold">{session.data.user.name}</span>
+                </p>
+                <ActionButton
+                  key="Log Out"
+                  name="Log Out"
+                  variant="secondary"
+                  onClick={() => {
+                    closeSidebar();
+                    signOut({ callbackUrl: "/" });
+                  }}
+                />
+              </div>
+            )}
+            {session.status === "unauthenticated" && (
+              <>
+                <ActionButton
+                  key="Log In"
+                  name="Log In"
+                  variant="secondary"
+                  onClick={() => {
+                    closeSidebar();
+                    router.push(`${"/login"}`);
+                  }}
+                />
+                <ActionButton
+                  key="Sign Up"
+                  name="Sign Up"
+                  variant="primary"
+                  onClick={() => {
+                    closeSidebar();
+                    router.push(`${"/signup"}`);
+                  }}
+                />
+              </>
+            )}
           </div>
         </div>
       </div>

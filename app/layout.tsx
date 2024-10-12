@@ -1,7 +1,9 @@
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 
-import { Inter, Nunito } from "next/font/google";
+import { Nunito } from "next/font/google";
+
+import AuthProvider from "@/components/AuthProvider";
 
 export const nunito = Nunito({
   subsets: ["latin"],
@@ -15,10 +17,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${nunito.className} antialiased`}>
-        <Navbar />
-        {children}
-      </body>
+      <AuthProvider>
+        <body className={`${nunito.className} antialiased`}>
+          <Navbar />
+          {children}
+        </body>
+      </AuthProvider>
     </html>
   );
 }

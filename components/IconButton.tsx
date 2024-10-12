@@ -14,7 +14,7 @@ const IconButton: React.FC<IconButtonProps> = ({
   return (
     <button
       onClick={onClick}
-      className={`${appendedClasses} hover:text-red-400 rounded-md sm:hidden`}
+      className={`${appendedClasses} hover:text-primary-400 rounded-md sm:hidden`}
       aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
     >
       {isOpen ? (
