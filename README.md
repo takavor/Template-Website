@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+This is a template TypeScript Next.js web application with a responsive navigation bar and an account creation/login system using the NextAuth credentials provider. The template uses Tailwind styling and the Prisma ORM for database management (SQLite is the default database I've integrated). The project uses the Next.js App Router.
+
+https://github.com/user-attachments/assets/445a5ee9-f6e7-4036-be5d-3d7a9d4272cb
 
 ## Getting Started
 
-First, run the development server:
+To set up the template website, follow these steps:
 
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/takavor/Template-Website.git
+cd Template-Website
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Create a `.env` file in the root of the project with the following content:
+```bash
+DATABASE_URL="file:./dev.db"
+NEXTAUTH_SECRET=...
+```
+Note that your `DATABASE_URL` will be different if you use a different database. You should put a secret key in the `NEXTAUTH_SECRET` field. Make sure you add the `.env` file to your `.gitignore`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Generate and migrate Prisma:
+```bash
+npx prisma generate
+npx prisma migrate dev
+```
 
-## Learn More
+5. Start the development server in the root of the project:
+```bash
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+6. Open `http://localhost:3000` in your browser to see the website.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Voilà!
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Styling
+To configure the primary colours of the website, you can edit the `primary` field in the `tailwind.config.ts` file and set your desired colour palette for the different shades.
 
-## Deploy on Vercel
+## Navigation links
+Add your desired navigation links to the `data/navLinks.ts` file, and they will be rendered automatically. Make sure to create the pages for the links you add in the `app` folder.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Viewing the database
+To view the contents of your database, run `npx prisma studio`. You will see changes in your database in realtime at `http://localhost:5555`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Contributions
+Feel free to open an issue or PRs to contribute to this template.
