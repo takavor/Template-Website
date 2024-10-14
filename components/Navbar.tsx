@@ -5,6 +5,8 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 
+import { BarLoader } from "react-spinners";
+
 // COMPONENTS
 import Link from "next/link";
 import NavLink from "./NavLink";
@@ -50,7 +52,7 @@ const Navbar = () => {
       </div>
 
       {/* RIGHT SECTION */}
-      <div className="hidden sm:flex items-center">
+      <div className="hidden sm:flex items-center min-w-[200px] justify-end">
         {session.status === "authenticated" ? (
           <p className="mr-2 font-bold">{session.data.user.name}</p>
         ) : (
@@ -82,6 +84,8 @@ const Navbar = () => {
             />
           </>
         )}
+
+        {session.status === "loading" && <BarLoader color="var(--primary)" />}
       </div>
 
       {/* HAMBURGER */}
