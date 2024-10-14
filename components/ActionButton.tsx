@@ -15,11 +15,11 @@ const ActionButton: React.FC<ActionButtonProps> = ({
   onClick,
 }) => {
   const baseClasses =
-    "m-2 transition rounded-md text-base focus:outline-none focus:ring-1 focus:ring-primary-600";
+    "m-2 transition rounded-md text-base focus:outline-none focus:ring-1 focus:ring-primary/50";
   const variantClasses =
     variant === "primary"
-      ? "text-white bg-primary-500 hover:bg-primary-300"
-      : "text-primary-500 border border-primary-500 hover:bg-primary-100 hover:border-transparent hover:text-white";
+      ? "text-white bg-primary hover:bg-primary/60"
+      : "dark:bg-primary/25 dark:text-white text-primary border border-primary hover:bg-primary/30 hover:border-transparent hover:text-white";
   const sidebarVariantClasses = isSidebar
     ? "py-1 px-2 mt-6"
     : "p-2 xl:p-3 xl:text-lg";

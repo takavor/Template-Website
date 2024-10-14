@@ -101,9 +101,9 @@ const LoginPage = () => {
         <div className="mb-8">
           <h1 className="text-2xl">Company Name</h1>
         </div>
-        <div className="w-full bg-white rounded-lg shadow">
+        <div className="w-full bg-card rounded-lg shadow">
           <div className="p-6 space-y-4">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900">
+            <h1 className="text-xl leading-tight tracking-tight ">
               Log in to your account
             </h1>
 
@@ -122,8 +122,8 @@ const LoginPage = () => {
                   name="email"
                   id="email"
                   className={`border ${
-                    errors.email ? "border-red-600" : "border-gray-300"
-                  } bg-gray-50  text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5`}
+                    errors.email ? "border-error" : "border-border"
+                  } bg-background rounded-lg block w-full p-2.5`}
                   placeholder=""
                   required={true}
                   value={data.email}
@@ -132,7 +132,7 @@ const LoginPage = () => {
                   }}
                 />
                 {errors.email && (
-                  <div className="text-red-600 font-semibold">
+                  <div className="text-error font-semibold">
                     <p className="mt-2 text-sm">{errors.email}</p>
                   </div>
                 )}
@@ -145,9 +145,9 @@ const LoginPage = () => {
                   type="password"
                   name="password"
                   id="password"
-                  className={` border ${
-                    errors.password ? "border-red-600" : "border-gray-300"
-                  } bg-gray-50  text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5`}
+                  className={`border ${
+                    errors.password ? "border-error" : "border-border"
+                  } bg-background rounded-lg block w-full p-2.5`}
                   placeholder=""
                   required={true}
                   value={data.password}
@@ -156,7 +156,7 @@ const LoginPage = () => {
                   }}
                 />
                 {errors.password && (
-                  <div className="text-red-600 font-semibold">
+                  <div className="text-error font-semibold">
                     <p className="mt-2 text-sm">{errors.password}</p>
                   </div>
                 )}
@@ -168,7 +168,7 @@ const LoginPage = () => {
                       id="remember"
                       aria-describedby="remember"
                       type="checkbox"
-                      className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
+                      className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300  "
                       onChange={(e) => {
                         setData({ ...data, rememberMe: e.target.checked });
                       }}
@@ -177,17 +177,17 @@ const LoginPage = () => {
                   <div className="ml-3 text-sm">
                     <label
                       htmlFor="remember"
-                      className="text-gray-500 dark:text-gray-300"
+                      className="text-gray-500 "
                     >
                       Remember me
                     </label>
                   </div>
                 </div> */}
-                <span className="text-sm font-semibold">
+                <span className="text-sm">
                   Forgot your password? Click{" "}
                   <a
                     href="#"
-                    className="text-center font-medium text-primary-600 hover:underline dark:text-primary-500"
+                    className="text-center font-medium text-primary/90 hover:underline"
                   >
                     here
                   </a>
@@ -197,13 +197,13 @@ const LoginPage = () => {
 
               <button
                 type="submit"
-                className="mb-4 transition w-full text-white bg-primary-500 hover:bg-primary-300 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                className="mb-4 transition w-full text-white bg-primary hover:bg-primary/60 focus:ring-2 focus:outline-none focus:ring-primary/30 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
               >
                 Log in
               </button>
 
               {error && (
-                <p className="text-center text-red-600 font-semibold mb-2">
+                <p className="text-center text-error font-semibold mb-2">
                   Invalid email or password.
                 </p>
               )}
@@ -212,7 +212,7 @@ const LoginPage = () => {
                   loading ? "" : "invisible"
                 }`}
               >
-                <BarLoader width={50} color="#F53C3C" />
+                <BarLoader width={50} color={`rgb(var(--primary))`} />
               </div>
 
               {/* GOOGLE PROVIDER SECTION */}
@@ -236,11 +236,11 @@ const LoginPage = () => {
           </div>
         </div>
       </div>
-      <p className="text-center text-sm font-light text-gray-500 dark:text-gray-400">
+      <p className="text-center text-sm font-light text-gray-500 ">
         Don’t have an account yet?{" "}
         <a
           href="#"
-          className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+          className="font-medium text-primary/80 hover:underline "
           onClick={() => router.push("/signup")}
         >
           Sign up

@@ -11,9 +11,20 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String
-  password  String
-  createdAt DateTime @default(now())
+  id            String         @id @default(cuid())
+  email         String         @unique
+  name          String
+  password      String
+  createdAt     DateTime       @default(now())
+  organizations Organization[]
+}
+
+model Organization {
+  id                  String   @id @default(cuid())
+  name                String
+  productsDescription String?
+  keyWords            String
+  createdAt           DateTime @default(now())
+  owner               User     @relation(fields: [userId], references: [id])
+  userId              String
 }

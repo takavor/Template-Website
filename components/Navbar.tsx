@@ -32,13 +32,10 @@ const Navbar = () => {
   const router = useRouter();
 
   return (
-    <nav className="h-16 xl:text-lg xl:h-20 px-4 shadow-sm flex justify-between items-center bg-white border-b lg:px-16">
+    <nav className="h-16 xl:text-lg xl:h-20 px-4 shadow-sm flex justify-between items-center bg-navbar border-b border-border/30 lg:px-16">
       {/* LEFT SECTION */}
       <div className="flex items-center">
-        <Link
-          href="/"
-          className="m-2 font-bold cursor-pointer group-hover:text-gray-600 transition"
-        >
+        <Link href="/" className="m-2 font-bold cursor-pointer transition">
           W
         </Link>
         <div className="m-2">Company Name</div>
@@ -85,7 +82,9 @@ const Navbar = () => {
           </>
         )}
 
-        {session.status === "loading" && <BarLoader color="var(--primary)" />}
+        {session.status === "loading" && (
+          <BarLoader color={`rgb(var(--primary))`} />
+        )}
       </div>
 
       {/* HAMBURGER */}
@@ -105,7 +104,7 @@ const Navbar = () => {
 
       {/* SIDEBAR */}
       <div
-        className={`p-4 fixed top-16 left-0 w-64 h-full bg-white shadow-md transform transition-transform duration-500 ease-in-out ${
+        className={`p-4 fixed top-16 left-0 w-64 h-full bg-background shadow-md transform transition-transform duration-500 ease-in-out ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         } z-50`}
       >

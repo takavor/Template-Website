@@ -121,9 +121,9 @@ const SignupPage = () => {
         <div className="mb-8">
           <h1 className="text-2xl">Company Name</h1>
         </div>
-        <div className="w-full bg-white rounded-lg shadow">
+        <div className="w-full bg-card rounded-lg shadow">
           <div className="p-6 space-y-4">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900">
+            <h1 className="text-xl leading-tight tracking-tight ">
               Create an account
             </h1>
 
@@ -133,7 +133,7 @@ const SignupPage = () => {
               onSubmit={registerUserCredentials}
               noValidate
             >
-              <div className="my-4">
+              <div className="my-4 md:my-6">
                 <label className="" htmlFor="email">
                   Your name
                 </label>
@@ -142,8 +142,8 @@ const SignupPage = () => {
                   name="name"
                   id="name"
                   className={`border ${
-                    errors.name ? "border-red-600" : "border-gray-300"
-                  } bg-gray-50 border text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5`}
+                    errors.name ? "border-error" : "border-border"
+                  } bg-background rounded-lg block w-full p-2.5`}
                   placeholder="John Doe"
                   required={true}
                   value={data.name}
@@ -152,13 +152,13 @@ const SignupPage = () => {
                   }}
                 />
                 {errors.name && (
-                  <div className="text-red-600 font-semibold">
+                  <div className="text-error font-semibold">
                     <p className="mt-2 text-sm">{errors.name}</p>
                   </div>
                 )}
               </div>
 
-              <div className="my-4">
+              <div className="my-4 md:my-6">
                 <label className="" htmlFor="email">
                   Your email
                 </label>
@@ -167,8 +167,8 @@ const SignupPage = () => {
                   name="email"
                   id="email"
                   className={`border ${
-                    errors.email ? "border-red-600" : "border-gray-300"
-                  } bg-gray-50 border text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  `}
+                    errors.email ? "border-error" : "border-border"
+                  } bg-background rounded-lg block w-full p-2.5`}
                   placeholder="abc@xyz.com"
                   required={true}
                   value={data.email}
@@ -177,13 +177,13 @@ const SignupPage = () => {
                   }}
                 />
                 {errors.email && (
-                  <div className="text-red-600 font-semibold">
+                  <div className="text-error font-semibold">
                     <p className="mt-2 text-sm">{errors.email}</p>
                   </div>
                 )}
               </div>
 
-              <div className="my-4">
+              <div className="my-4 md:my-6">
                 <label className="" htmlFor="password">
                   Your password
                 </label>
@@ -192,8 +192,8 @@ const SignupPage = () => {
                   name="password"
                   id="password"
                   className={`border ${
-                    errors.password ? "border-red-600" : "border-gray-300"
-                  } bg-gray-50 border text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  `}
+                    errors.password ? "border-error" : "border-border"
+                  } bg-background rounded-lg block w-full p-2.5`}
                   placeholder="●●●●●●●●"
                   required={true}
                   value={data.password}
@@ -203,7 +203,7 @@ const SignupPage = () => {
                   minLength={8}
                 />
                 {errors.password && (
-                  <div className="text-red-600 font-semibold">
+                  <div className="text-error font-semibold">
                     <p className="mt-2 text-sm">{errors.password}</p>
                   </div>
                 )}
@@ -211,7 +211,7 @@ const SignupPage = () => {
 
               <button
                 type="submit"
-                className="mb-4 transition w-full text-white bg-primary-500 hover:bg-primary-300 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                className="mb-4 transition w-full text-white bg-primary hover:bg-primary/60 focus:ring-2 focus:outline-none focus:ring-primary/30 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
               >
                 Sign up
               </button>
@@ -249,7 +249,7 @@ const SignupPage = () => {
         Already have an account?{" "}
         <a
           href="#"
-          className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+          className="font-medium text-primary/80 hover:underline dark:text-primary-500"
           onClick={() => router.push("/login")}
         >
           Log in
